@@ -1,78 +1,78 @@
 ---
-ms.openlocfilehash: 744df064e4fdc1bbf7821ae43a7b7878148902e9
-ms.sourcegitcommit: 5067c508675fbedbc7eead0869308d00b63be8e3
+ms.openlocfilehash: 4c021fe8aac9b42ee0984a15e73366ead847ee06
+ms.sourcegitcommit: ef990e983274cb161bfe16a8dff801d30a798f04
 ms.translationtype: MT
 ms.contentlocale: ru-RU
-ms.lasthandoff: 12/03/2020
-ms.locfileid: "49584684"
+ms.lasthandoff: 07/15/2021
+ms.locfileid: "53446979"
 ---
 <!-- markdownlint-disable MD002 MD041 -->
 
-Для начала создайте приложение WebAssembly для компании "Кузня".
+Начните с создания приложения Blazor WebAssembly.
 
-1. Откройте интерфейс командной строки (CLI) в каталоге, где нужно создать проект. Выполните следующую команду.
+1. Откройте интерфейс командной строки (CLI) в каталоге, в котором необходимо создать проект. Выполните следующую команду.
 
     ```Shell
     dotnet new blazorwasm --auth SingleOrg -o GraphTutorial
     ```
 
-    Этот параметр приводит к включению в созданный проект `--auth SingleOrg` конфигурации для проверки подлинности с помощью платформы удостоверений Майкрософт.
+    Этот параметр заставляет созданный проект включать конфигурацию для проверки подлинности `--auth SingleOrg` с помощью платформа удостоверений Майкрософт.
 
-1. После создания проекта убедитесь, что он работает, изменив текущий каталог на **каталог GraphTutorial** и выполнив следующую команду в CLI.
+1. После создания проекта убедитесь, что он работает путем изменения текущего каталога в **каталог GraphTutorial** и запуска следующей команды в CLI.
 
     ```Shell
     dotnet watch run
     ```
 
-1. Откройте браузер и перейдите к `https://localhost:5001` . Если все работает, вы увидите "Hello, world!" Сообщение.
+1. Откройте браузер и просмотрите `https://localhost:5001` . Если все работает, вы должны увидеть "Привет, мир!" Сообщение.
 
 > [!IMPORTANT]
-> Если вы получите предупреждение о том, что сертификат **для localhost** не является доверенным, можно использовать .NET Core CLI для установки сертификата разработки и доверия ему. Инструкции [по определенным операционным системам см.](/aspnet/core/security/enforcing-ssl?view=aspnetcore-3.1) в ASP.NET "Enforce HTTPS in ASP.NET Core".
+> Если вы получаете предупреждение о том, что сертификат **localhost** не доверяется, вы можете использовать CLI core .NET для установки сертификата разработки и доверия к этому сертификату. Инструкции по конкретным [операционным системам см. в ASP.NET Core https.ru.](/aspnet/core/security/enforcing-ssl)
 
 ## <a name="add-nuget-packages"></a>Добавление пакетов NuGet
 
-Прежде чем двигаться дальше, установите некоторые дополнительные пакеты NuGet, которые вы будете использовать позже.
+Прежде чем двигаться дальше, установите дополнительные NuGet пакеты, которые вы будете использовать позже.
 
-- [Microsoft.Graph](https://www.nuget.org/packages/Microsoft.Graph/) для звонков в Microsoft Graph.
-- [TimeZoneConverter](https://github.com/mj1856/TimeZoneConverter) для перевода идентификаторов часовой пояс Windows в идентификаторы IANA.
+- [Microsoft.Graph](https://www.nuget.org/packages/Microsoft.Graph/) для вызовов Microsoft Graph.
+- [TimeZoneConverter](https://github.com/mj1856/TimeZoneConverter) для перевода Windows идентификаторов часовой зоны в идентификаторы IANA.
 
-1. Для установки зависимостей в CLI запустите следующие команды.
+1. Запустите следующие команды в CLI для установки зависимостей.
 
     ```Shell
-    dotnet add package Microsoft.Graph --version 3.18.0
+    dotnet add package Microsoft.Graph --version 4.0.0
     dotnet add package TimeZoneConverter
     ```
 
 ## <a name="design-the-app"></a>Проектирование приложения
 
-В этом разделе вы создадим базовую структуру пользовательского интерфейса приложения.
+В этом разделе будет создаваться базовая структура пользовательского интерфейса приложения.
 
-1. Удалите образцы страниц, созданных шаблоном. Удалите следующие файлы.
+1. Удалите примеры страниц, созданных шаблоном. Удаление следующих файлов.
 
-    - **./Pages/Counter.**
-    - **./Pages/FetchData.веб-сайт**
-    - **./Shared/SurveyPrompt.**
+    - **./Pages/Counter.razor**
+    - **./Pages/FetchData.razor**
+    - **./Shared/SurveyPrompt.razor**
     - **./wwwroot/sample-data/weather.json**
 
-1. Откройте **./wwwroot/index.html** и добавьте следующий код **перед** закрыва тем же `</body>` тегом.
+1. Откройте **./wwwroot/index.html** и добавьте следующий код **перед** закрытием `</body>` тега.
 
     :::code language="html" source="../demo/GraphTutorial/wwwroot/index.html" id="BootStrapJSSnippet":::
 
-    При этом добавляются [файлы JavaScript Bootstrap.](https://getbootstrap.com/docs/4.5/getting-started/introduction/)
+    Это добавляет [файлы javascript Bootstrap.](https://getbootstrap.com/docs/4.5/getting-started/introduction/)
 
 1. Откройте **./wwwroot/css/app.css** и добавьте следующий код.
 
     :::code language="css" source="../demo/GraphTutorial/wwwroot/css/app.css" id="CssSnippet":::
 
-1. Откройте **./Shared/NavMenu.состав и** замените его содержимое на следующее.
+1. Откройте **./Shared/NavMenu.razor** и замените его содержимое следующим.
 
     :::code language="razor" source="../demo/GraphTutorial/Shared/NavMenu.razor" id="NavMenuSnippet":::
 
-1. Откройте **./Pages/Index.веб-сайт и** замените его содержимое на следующее.
+1. Откройте **./Pages/Index.razor** и замените его содержимое следующим.
 
     :::code language="razor" source="../demo/GraphTutorial/Pages/Index.razor" id="IndexSnippet":::
 
-1. Откройте **./Shared/LoginDisplay.and replace** its contents with the following.
+1. Откройте **./Shared/LoginDisplay.razor** и замените содержимое на следующее.
 
     ```razor
     @using Microsoft.AspNetCore.Components.Authorization
@@ -107,11 +107,11 @@ ms.locfileid: "49584684"
     }
     ```
 
-1. Создайте новый каталог в **каталоге ./wwwroot** с именем **img.** Добавьте файл изображения с именем **no-profile-photo.png** в этом каталоге. Это изображение будет использоваться в качестве фотографии пользователя, если у пользователя нет фотографии в Microsoft Graph.
+1. Создайте новый каталог в **каталоге ./wwwroot** с именем **img**. Добавьте файл изображений выбора с именем **no-profile-photo.png** в этом каталоге. Это изображение будет использоваться в качестве фотографии пользователя, если у пользователя нет фотографии в Microsoft Graph.
 
     > [!TIP]
-    > Вы можете скачать изображение, использованное на этих снимках экрана, с [GitHub.](https://github.com/microsoftgraph/msgraph-training-blazor-clientside/blob/master/demo/GraphTutorial/wwwroot/img/no-profile-photo.png)
+    > Вы можете скачать изображение, используемую на этих скриншотах из [GitHub](https://github.com/microsoftgraph/msgraph-training-blazor-clientside/blob/master/demo/GraphTutorial/wwwroot/img/no-profile-photo.png).
 
 1. Сохраните все изменения и обновите страницу.
 
-    ![Снимок экрана с измененной домашней страницей](./images/create-app-01.png)
+    ![Снимок экрана: обновленная домашняя страница](./images/create-app-01.png)
